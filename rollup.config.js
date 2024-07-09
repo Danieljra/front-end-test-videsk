@@ -49,7 +49,7 @@ const defaultPlugins = [
     postcss({ inject: false }),
     resolve({ browser: true }),
     commonjs(),
-]
+];
 
 const configBuild = [
     {
