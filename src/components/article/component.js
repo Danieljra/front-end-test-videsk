@@ -1,17 +1,19 @@
 import styles from './styles.css';
 import template from './template.html';
+import Author from '../author/component.js'
 
 export class ArticleComponent extends HTMLElement {
-  constructor(authorId) {
+  constructor() {
     super();
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `<style>${styles}</style>${template}`;
-    this.authorId = authorId;
   }
 
   connectedCallback() {
     this.shadowRoot.querySelector('.article').addEventListener('click', this.toggleContent.bind(this));
     this.shadowRoot.querySelector('#show-author-info').addEventListener('click', this.toggleAuthorInfo.bind(this));
+    this.authorComponent = new Author();
+    this.shadowRoot.querySelector('#author-info').appendChild(this.authorComponent);
   }
 
   static get observedAttributes() {
@@ -19,37 +21,57 @@ export class ArticleComponent extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue !== newValue) {
-      this[name] = newValue;
-    }
+    const element = this.shadowRoot.querySelector(`#${name}`);
+    const propertyMapping = { image: 'src' };
+    if (element) element[propertyMapping[name] || 'innerText'] = newValue;
   }
 
   set title(value) {
-    this.shadowRoot.querySelector('#title').textContent = value;
+    this.setAttribute('title', value);
+  }
+
+  get title() {
+    return this.getAttribute('title');
   }
 
   set image(value) {
-    this.shadowRoot.querySelector('#image').src = value;
+    this.setAttribute('image', value);
+  }
+
+  get image() {
+    return this.getAttribute('src');
   }
 
   set company(value) {
-    this.shadowRoot.querySelector('#company').textContent = value;
+    this.setAttribute('company', value);
+  }
+
+  get company() {
+    return this.getAttribute('company');
   }
 
   set description(value) {
-    this.shadowRoot.querySelector('#description').textContent = value;
+    this.setAttribute('description', value);
+  }
+
+  get description() {
+    return this.getAttribute('description');
   }
 
   set content(value) {
-    this.shadowRoot.querySelector('#content').textContent = value;
+    this.setAttribute('content', value);
+  }
+
+  get content() {
+    return this.getAttribute('content');
   }
 
   set author(value) {
-    this._author = Number(value);
+    this.setAttribute('author', value);
   }
 
   get author() {
-    return this.authorId || Number(this.getAttribute('author'));
+    return Number(this.getAttribute('author'));
   }
 
   toggleContent(event) {
@@ -58,16 +80,14 @@ export class ArticleComponent extends HTMLElement {
   }
 
   async toggleAuthorInfo(event) {
-    event.stopPropagation();
-    const author = this.shadowRoot.querySelector('author-component');
-    const data = isNaN(author.id) && await this.constructor.fetchAuthor(this.author);
+    const data = isNaN(this.authorComponent.id) && await this.constructor.fetchAuthor(this.author);
     const authorInfo = this.shadowRoot.querySelector('#author-info');
     authorInfo.classList.toggle('hidden');
     if (!data) return;
     Object.entries(data).forEach(([key, value]) => {
-      author.setAttribute(key, value);
+      this.authorComponent.setAttribute(key, value);
     });
-    author.render();
+    this.authorComponent.render();
   }
 
   static async fetchAuthor(authorId) {
@@ -76,5 +96,6 @@ export class ArticleComponent extends HTMLElement {
     return response.json();
   }
 }
+
 
 customElements.define('article-component', ArticleComponent);
