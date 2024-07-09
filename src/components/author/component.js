@@ -1,12 +1,11 @@
 import styles from './styles.css';
 import template from './template.html';
 
-export class AuthorComponent extends HTMLElement {
-  constructor(authorId) {
+export class Author extends HTMLElement {
+  constructor() {
     super();
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `<style>${styles}</style>${template}`;
-    this.setAttribute('author', authorId);
   }
 
   static get observedAttributes() {
@@ -82,4 +81,6 @@ export class AuthorComponent extends HTMLElement {
   }
 }
 
-customElements.define('author-component', AuthorComponent);
+customElements.define('author-component', Author);
+
+export default Author;
