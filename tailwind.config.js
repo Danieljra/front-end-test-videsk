@@ -1,6 +1,6 @@
 const routes = ['./src/**/*.{css,html}'];
 
-module.exports = {
+export default {
   mode: 'jit',
   purge: routes,
   content: routes,

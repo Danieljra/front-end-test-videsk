@@ -1,0 +1,26 @@
+.author {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+}
+.author img {
+    max-width: 100px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 10px;
+}
+.author h2 {
+    text-align: center;
+    margin: 0 0 10px;
+}
+.author p {
+    margin: 5px 0;
+}
+#birthdate {
+    font-style: italic;
+    color: #666;
+}
+#bio {
+    text-align: justify;
+}

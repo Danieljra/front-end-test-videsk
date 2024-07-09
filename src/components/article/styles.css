@@ -1,0 +1,34 @@
+:host {
+    font-family: sans-serif;
+}
+
+.article {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.article img {
+    max-width: 100%;
+}
+
+#title {
+    text-transform: capitalize;
+}
+
+#description {
+    color: #383838;
+}
+
+#content {
+    display: none;
+}
+
+#author-info {
+    display: block;
+}
+
+#author-info.hidden {
+    display: none;
+}
